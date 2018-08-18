@@ -18,8 +18,8 @@ export class Excel {
         this.nodeIdOnEdit = null;
         this.textEditNode = null;
         this.contextualMenu = null;
-        this.sortOnColumn = null;
-        this.sortDirection = 'a';
+        this.sortOnColumnIndex = null;
+        this.sortAcending = true;
     }
 
     /**
@@ -81,7 +81,12 @@ export class Excel {
      */
     setupHeaders() {
         const headers = [];
-        for(let i = 1; i < this.config.minLabeledCols; i++) headers[i] = 'col:' + i;
+        for(let i = 1; i < this.config.minLabeledCols; i++) {
+            headers[i] = 'col:' + i;
+            if(this.sortOnColumnIndex === i) {
+                headers[i] += ' ' + (this.sortAcending ? '&#8595' : '&#8593');
+            }
+        }
         this.data[0] = headers;
     }
 
@@ -97,6 +102,53 @@ export class Excel {
             }
         }
     }
+
+    /**
+     * 
+     */
+    applySort(cellIndex) {
+        if(cellIndex === this.sortOnColumnIndex) {
+            this.sortAcending = !this.sortAcending;
+        } else {
+            this.sortOnColumnIndex = cellIndex;
+            this.sortAcending = true;
+        }
+        /* Find the last row upto which we need to sort */
+        let sortUpto = 0;
+        const sortables = [];
+        for(let i = 1; i < this.config.minLabeledRows; i++) {
+            if( Object.keys(this.data[i]).length > 1 ) {
+                if(sortUpto < i) {
+                    sortUpto = i;
+                }
+            }
+        }
+        const sortIndexes = [];
+        for(let i = 1; i < sortUpto; i++) {
+            sortables.push(this.data[i]);
+        }
+
+        sortables.sort((a, b) => {
+            const valA = a[cellIndex] || '';
+            const valB = b[cellIndex] || '';
+            let result = 0;
+            if(valA > valB) {
+                result =  this.sortAcending ? 1 : -1;
+            }else if(valA < valB) {
+                result =  this.sortAcending ? -1 : 1;
+            } 
+            return result;
+        });
+        
+        sortables.forEach((e, index) => {
+            this.data[index] = e;
+        });
+
+        this.setupHeaders();
+        this.setupLabels();
+        this.remapData();
+    }
+
     /**
      * Setup click listener emit from cell
      */
@@ -122,6 +174,11 @@ export class Excel {
                     this.nodeIdOnEdit = e.cellId;
                     this.textEditNode.focus();
                 }
+            }
+
+            /* initiate sort */
+            if(!e.rowIndex && e.cellIndex) {
+                this.applySort(e.cellIndex);
             }
         });
 
