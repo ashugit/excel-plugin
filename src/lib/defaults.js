@@ -3,5 +3,6 @@ export const Config = {
     minLabeledRows: 10000,  
     rows: 50,
     cols: 9,
-    borders: '#000000'
+    borders: '#000000',
+    scrollable: true
 };

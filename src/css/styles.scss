@@ -3,6 +3,7 @@
 $color-border-gray: #666666;
 $color-bkg-gray: #bbbbbb;
 $color-bkg-white: #ffffff;
+$color-bkg-offwhite: #dddddd;
 
 html, body {
     padding: 0px;
@@ -52,6 +53,9 @@ html, body {
     margin: 0px;
     display: inline-block;
     border-left: 1px solid $color-border-gray;
+}
+.tbl .tbl-row .tbl-cell:hover{
+    background: $color-bkg-offwhite;
 }
 
 .tbl .tbl-row .tbl-cell:first-child{
@@ -122,18 +126,25 @@ html, body {
 
 
 .tbl #tbl-menu {
-    border: 1px solid $color-bkg-gray;
-    background-color: $color-bkg-white;
-  }
+    border: 1px solid $color-border-gray;
+    background-color: $color-bkg-offwhite;
+    border-radius: 5px;
+}
   
 .tbl #tbl-menu ul {
     padding: 0;
     list-style: none;
-  }
-  
-.tbl #tbl-menu li
-  {
+}
+
+.tbl #tbl-menu li{
     list-style: none;
     padding-left: 5px;
     padding-right: 5px;
-  }
+    cursor: pointer;
+    font-size: 14px;
+    padding-bottom: 5px;
+}
+
+.tbl #tbl-menu li:hover{
+    background-color: $color-bkg-white;
+}

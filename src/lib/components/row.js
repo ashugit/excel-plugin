@@ -2,14 +2,15 @@ import { Component } from './component';
 import { Cell } from './cell';
 
 export class Row extends Component {
-    constructor(parentNode, config, ref) {
+    constructor(parentNode, config, data, index) {
         super();
         this.rootTag = 'div';
         this.rootClass = 'tbl-row';
         this.cells = [];
         this.parentNode = parentNode;
         this.colOffset = 0;
-        this.setRef(ref);
+        this.data = data;
+        this.setIndex(index);
         this.setConfig(config);
     }
     /**
@@ -41,9 +42,9 @@ export class Row extends Component {
         }
     }
 
-    addNthCell(n, ref) {
-        const cell = new Cell(this, this.getConfig(), ref);
-        this.cells.splice(n, 0, ref);
+    addNthCell(n, cellData) {
+        const cell = new Cell(this, this.getConfig(), this.data, this.getIndex(), n);
+        this.cells.splice(n, 0, cellData);
         this.appendNthNode(n, cell.getNode());
     }
 
@@ -56,7 +57,7 @@ export class Row extends Component {
 
         const node = this.initializeRootNode();
         for(let i = 0; i < this.getConfig().cols; i++) { 
-            const cell = new Cell(this, this.getConfig(), this.ref[i]);
+            const cell = new Cell(this, this.getConfig(), this.data, this.getIndex(), i);
             this.cells.push(cell);
             node.appendChild(cell.getNode());
         }
@@ -69,18 +70,14 @@ export class Row extends Component {
         });
     }
 
-    onChangeRef(ref, offset = 0) {
-        this.setRef(ref);
+    onChangeRef(index, offset = 0) {
+        this.setIndex(index);
         this.colOffset = offset;
-        this.cells.forEach( (cell, index) => {
-            if(this.ref) {
-                if(!index) {
-                    cell.onChangeRef(this.ref[0]);
-                }else{
-                    cell.onChangeRef(this.ref[this.colOffset + index]);
-                }
-            } else {
-                cell.onChangeRef(null);
+        this.cells.forEach( (cell, colIndex) => {    
+            if(!index) {
+                cell.onChangeRef(0, this.colOffset + colIndex);
+            }else{
+                cell.onChangeRef(index, this.colOffset + colIndex);
             }
         });
     }   

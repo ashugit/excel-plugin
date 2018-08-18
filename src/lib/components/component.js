@@ -2,10 +2,10 @@ let ID_COUNTER = 0;
 export class Component {
     constructor() {
         this.node = null;
-        this.ref = null;
         this.tag = '';
         this.id = '';
         this.config = null;
+        this.index = 0;
     }
 
     initializeRootNode() {
@@ -31,6 +31,19 @@ export class Component {
         if(!this.id) this.id = this.constructor.name + '-' + (++ID_COUNTER);
         return this.id;
     }
+    /**
+     * 
+     */
+    getIndex() {
+        return this.index;
+    }
+
+    /**
+     * 
+     */
+    setIndex(index) {
+        this.index = index;
+    }
 
     getNode() {
         throw new Error('Component must implment ' + this.getNode());
@@ -38,13 +51,6 @@ export class Component {
 
     getHTML() {
         throw new Error('Component must implment ' + this.getHTML());
-    }
-    /**
-     * 
-     * @param {*} ref 
-     */
-    setRef(ref) {
-        this.ref = ref;
     }
     /**
      * 
