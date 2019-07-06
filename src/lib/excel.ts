@@ -3,11 +3,25 @@ import { Row } from './components/row';
 import { Scroll } from './scroll';
 
 export class Excel {
+    private root: any;
+    private config: any;
+    private data: any;
+    private rows: any;
+    private scrollPoint: any;
+    private nodeIdOnEdit: any;
+    private textEditNode: any;
+    private contextualMenu: any;
+    private sortOnColumnIndex: any;
+    private sortAcending: any;
+    private activeCellIndex: any;
+    private activeRowIndex: any;
+    private rightClickCell: any;
+
     /**
-     * 
-     * @param {*} element 
-     * @param {*} config 
-     * @param {*} data 
+     *
+     * @param {*} element
+     * @param {*} config
+     * @param {*} data
      */
     constructor(element, config, data) {
         this.root = element;
@@ -23,8 +37,8 @@ export class Excel {
     }
 
     /**
-     * 
-     * @param {*} node 
+     *
+     * @param {*} node
      */
     setupScrollHandling(div) {
         const scrollHandler = {
@@ -42,7 +56,7 @@ export class Excel {
         scroll.initializeScrolls();
     }
     /**
-     * 
+     *
      */
     remapData() {
         const startRow = this.scrollPoint.scroll.row;
@@ -52,11 +66,11 @@ export class Excel {
                 row.onChangeRef(0, startCol);
             } else {
                 row.onChangeRef(startRow + index, startCol);
-            }       
+            }
         });
     }
     /**
-     * 
+     *
      */
     init() {
         const div = document.createElement( 'div' );
@@ -77,7 +91,7 @@ export class Excel {
     }
 
     /**
-     * 
+     *
      */
     setupHeaders() {
         const headers = [];
@@ -91,7 +105,7 @@ export class Excel {
     }
 
     /**
-     * 
+     *
      */
     setupLabels() {
         for(let i = 1; i < this.config.minLabeledRows; i++) {
@@ -104,7 +118,7 @@ export class Excel {
     }
 
     /**
-     * 
+     *
      */
     applySort(cellIndex) {
         if(cellIndex === this.sortOnColumnIndex) {
@@ -136,10 +150,10 @@ export class Excel {
                 result =  this.sortAcending ? 1 : -1;
             }else if(valA < valB) {
                 result =  this.sortAcending ? -1 : 1;
-            } 
+            }
             return result;
         });
-        
+
         sortables.forEach((e, index) => {
             this.data[index] = e;
         });
@@ -154,7 +168,7 @@ export class Excel {
      */
     addCustomEventListener(div) {
         /**
-         * 
+         *
          */
         div.addEventListener('startEdit', (e) => {
             const edittingCell = document.getElementById(e.cellId);
@@ -183,7 +197,7 @@ export class Excel {
         });
 
         /**
-         * 
+         *
          */
         div.addEventListener('showRightClickMenu', (e) => {
             this.rightClickCell = document.getElementById(e.cellId);
@@ -197,7 +211,7 @@ export class Excel {
         });
     }
     /**
-     * 
+     *
      */
     onEditTextChangedText(e) {
         if(e.target.value) {
@@ -211,24 +225,24 @@ export class Excel {
         }
     }
     /**
-     * 
-     * @param {*} cellNode 
+     *
+     * @param {*} cellNode
      */
     getEditorCellTextBox(cellNode) {
         if(!this.textEditNode) {
             this.textEditNode = document.createElement( 'textarea' );
             this.textEditNode.className = 'tbl-cell-editor-text';
-            this.textEditNode.rows = '1'; 
-            this.textEditNode.onchange = (e) => this.onEditTextChangedText(e); 
+            this.textEditNode.rows = '1';
+            this.textEditNode.onchange = (e) => this.onEditTextChangedText(e);
         }
         this.textEditNode.value = cellNode.innerHTML;
         cellNode.innerHTML = '';
         return this.textEditNode;
     }
     /**
-     * 
-     * @param {*} row 
-     * @param {*} colIndex 
+     *
+     * @param {*} row
+     * @param {*} colIndex
      */
     addANewColumnInRow(row, colIndex) {
         for(let i = this.config.minLabeledCols; i >= colIndex; i--) {
@@ -239,9 +253,9 @@ export class Excel {
         delete row[colIndex];
     }
     /**
-     * 
-     * @param {*} row 
-     * @param {*} colIndex 
+     *
+     * @param {*} row
+     * @param {*} colIndex
      */
     removeColumnInRow(row, colIndex) {
         const keys = Object.keys(row).sort();
@@ -254,8 +268,8 @@ export class Excel {
         }
     }
     /**
-     * 
-     * @param {*} rowIndex 
+     *
+     * @param {*} rowIndex
      */
     addANewRow(rowIndex) {
         for(let i = this.config.minLabeledRows; i >= rowIndex; i--) {
@@ -266,8 +280,8 @@ export class Excel {
         delete this.data[rowIndex];
     }
     /**
-     * 
-     * @param {*} rowIndex 
+     *
+     * @param {*} rowIndex
      */
     removeRow(rowIndex) {
         for(let i = rowIndex + 1; i < this.config.minLabeledRows; i++) {
@@ -278,8 +292,8 @@ export class Excel {
         }
     }
     /**
-     * 
-     * @param {*} choice 
+     *
+     * @param {*} choice
      */
     onContextMenuChoiceClick(choice) {
         switch(choice) {
@@ -319,8 +333,8 @@ export class Excel {
         }
     }
     /**
-     * 
-     * @param {*} div 
+     *
+     * @param {*} div
      */
     initContextualMenu(div) {
         if(!this.contextualMenu) {

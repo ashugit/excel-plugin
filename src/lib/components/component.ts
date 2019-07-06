@@ -1,5 +1,11 @@
 let ID_COUNTER = 0;
 export class Component {
+    node: any;
+    private tag: any;
+    private id: any;
+    private config: any;
+    private index: any;
+
     constructor() {
         this.node = null;
         this.tag = '';
@@ -25,21 +31,21 @@ export class Component {
         throw new Error('Component must implment ' + this.getRootTag());
     }
     /**
-     * 
+     *
      */
     getId() {
         if(!this.id) this.id = this.constructor.name + '-' + (++ID_COUNTER);
         return this.id;
     }
     /**
-     * 
+     *
      */
     getIndex() {
         return this.index;
     }
 
     /**
-     * 
+     *
      */
     setIndex(index) {
         this.index = index;
@@ -53,23 +59,23 @@ export class Component {
         throw new Error('Component must implment ' + this.getHTML());
     }
     /**
-     * 
-     * @param {*} config 
+     *
+     * @param {*} config
      */
     setConfig(config) {
         this.config = config;
     }
     /**
-     * 
+     *
      */
     getConfig() {
         return this.config;
     }
     /**
-     * 
+     *
      */
     onChange() {
         throw new Error('Component must implment ' + this.onChange());
-    }    
+    }
 }
 

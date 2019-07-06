@@ -2,7 +2,7 @@
  * Complete the function below.
  * DONOT MODIFY anything outside this function!
  */
- 
+
 function rearrange(elements, length) {
   return ``;
 }
