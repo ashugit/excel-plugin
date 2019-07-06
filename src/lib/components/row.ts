@@ -2,6 +2,12 @@ import { Component } from './component';
 import { Cell } from './cell';
 
 export class Row extends Component {
+    private rootTag: any;
+    private rootClass: any;
+    private cells: any;
+    private parentNode: any;
+    private colOffset: any;
+    private data: any;
     constructor(parentNode, config, data, index) {
         super();
         this.rootTag = 'div';
@@ -14,20 +20,20 @@ export class Row extends Component {
         this.setConfig(config);
     }
     /**
-     * 
+     *
      */
     getRootTag() {
         return this.rootTag;
     }
     /**
-     * 
+     *
      */
     getDefaultClass() {
         return this.rootClass;
     }
     /**
-     * 
-     * @param {*} n 
+     *
+     * @param {*} n
      */
     getNthCell(n) {
         return this.cells[n];
@@ -56,7 +62,7 @@ export class Row extends Component {
         if(this.node) return this.node;
 
         const node = this.initializeRootNode();
-        for(let i = 0; i < this.getConfig().cols; i++) { 
+        for(let i = 0; i < this.getConfig().cols; i++) {
             const cell = new Cell(this, this.getConfig(), this.data, this.getIndex(), i);
             this.cells.push(cell);
             node.appendChild(cell.getNode());
@@ -73,13 +79,13 @@ export class Row extends Component {
     onChangeRef(index, offset = 0) {
         this.setIndex(index);
         this.colOffset = offset;
-        this.cells.forEach( (cell, colIndex) => {    
+        this.cells.forEach( (cell, colIndex) => {
             if(!index) {
                 cell.onChangeRef(0, this.colOffset + colIndex);
             }else{
                 cell.onChangeRef(index, this.colOffset + colIndex);
             }
         });
-    }   
+    }
 }
 

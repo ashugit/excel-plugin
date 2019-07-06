@@ -1,6 +1,14 @@
 import { Component } from './component';
 
 export class Cell  extends Component {
+    private rootTag: any;
+    private rootClass: any;
+    private parent: any;
+    private data: any;
+    private rowIndex: any;
+    private cellId: any;
+    private cellIndex: any;
+
     constructor(parent, config, data, rowIndex, index) {
         super();
         this.rootTag = 'div';
@@ -48,7 +56,7 @@ export class Cell  extends Component {
 
     addEventListener() {
         this.node.addEventListener('click', (e)=> {
-            const event = new CustomEvent('startEdit');
+            const event:any = new CustomEvent('startEdit');
             event.cellId = this.getId();
             event.cellIndex = this.getIndex();
             event.rowIndex = this.rowIndex;
@@ -59,7 +67,7 @@ export class Cell  extends Component {
 
         this.node.addEventListener('contextmenu', (e) => {
             e.preventDefault();
-            const event = new CustomEvent('showRightClickMenu');
+            const event:any = new CustomEvent('showRightClickMenu');
             event.cellId = this.getId();
             event.cellIndex = this.getIndex();
             event.rowIndex = this.rowIndex;
