@@ -1,56 +1,59 @@
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Excel demo</title>
-    </head>
-    <body>
-        <div id="app" style="width:100%;height:100%"></div>
-        <script>
-            var max_rows = 100;
-            var max_cols = 26;
-            var min_labelled_rows = 10000;
-            var min_labelled_cols = 100;
-            var isScrollable = true;
-            getTestData = function(){
-                var data = [];
-                for(var i=1;i<max_rows;i++){
-                    var row = [];
-                    for(var j=1;j<max_cols;j++){
-                        row.push('(' + i  + ',' +  j + ')');
-                    }
-                    data.push(row);
-                }
-                return data;
-            };
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Excel demo</title>
+  </head>
+  <body>
+    <div id="app" style="width:100%;height:100%"></div>
+    <script>
+      var max_rows = 100;
+      var max_cols = 100;
+      var min_labelled_rows = 10000;
+      var min_labelled_cols = 100;
+      var isScrollable = true;
+      getTestData = function() {
+        var data = [];
+        for (var i = 1; i < max_rows; i++) {
+          var row = [];
+          for (var j = 1; j < max_cols; j++) {
+            row.push("(" + i + "," + j + ")");
+          }
+          data.push(row);
+        }
+        return data;
+      };
 
+      getTestHashData = function() {
+        var data = {};
+        for (var i = 1; i < max_rows; i++) {
+          var row = {};
+          for (var j = 1; j < max_cols; j++) {
+            row[j] = "(" + i + "," + j + ")";
+          }
+          data[i] = row;
+        }
+        return data;
+      };
 
-            getTestHashData = function(){
-                var data = {};
-                for(var i=1;i<max_rows;i++){
-                    var row = {};
-                    for(var j=1;j<max_cols;j++){
-                        row[j] = ('(' + i  + ',' +  j + ')');
-                    }
-                    data[i] = (row);
-                }
-                return data;
-            };
+      document.addEventListener("DOMContentLoaded", function() {
+        var ele = document.getElementById("app");
 
-            document.addEventListener('DOMContentLoaded', function(){
-                var ele = document.getElementById('app');
-                
-                var instance = new Excel(ele, 
-                                        {  
-                                            minLabeledCols: min_labelled_cols,
-                                            minLabeledRows: min_labelled_rows,  
-                                            rows: max_rows,
-                                            cols: max_cols,
-                                            borders: '#000000',
-                                            scrollable: isScrollable
-                                        }, getTestHashData());
-                instance.init();
-            });
-        </script>
-    </body>
+        var instance = new Excel(
+          ele,
+          {
+            minLabeledCols: min_labelled_cols,
+            minLabeledRows: min_labelled_rows,
+            rows: max_rows,
+            cols: max_cols,
+            borders: "#000000",
+            scrollable: isScrollable
+          },
+          getTestHashData()
+        );
+        instance.init();
+      });
+    </script>
+  </body>
+</html>
