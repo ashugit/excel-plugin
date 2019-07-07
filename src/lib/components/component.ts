@@ -1,81 +1,80 @@
 let ID_COUNTER = 0;
 export class Component {
-    node: any;
-    private tag: any;
-    private id: any;
-    private config: any;
-    private index: any;
+  node: any;
+  private tag: any;
+  private id: any;
+  private config: any;
+  private index: any;
 
-    constructor() {
-        this.node = null;
-        this.tag = '';
-        this.id = '';
-        this.config = null;
-        this.index = 0;
-    }
+  constructor() {
+    this.node = null;
+    this.tag = "";
+    this.id = "";
+    this.config = null;
+    this.index = 0;
+  }
 
-    initializeRootNode() {
-        if(!this.node) {
-            this.node = document.createElement(this.getRootTag());
-            this.node.id = this.getId();
-            this.node.className = this.getDefaultClass();
-        }
-        return this.node;
+  initializeRootNode() {
+    if (!this.node) {
+      this.node = document.createElement(this.getRootTag());
+      this.node.id = this.getId();
+      this.node.className = this.getDefaultClass();
     }
+    return this.node;
+  }
 
-    getDefaultClass() {
-        throw new Error('Component must implment ' + this.getDefaultClass());
-    }
+  getDefaultClass() {
+    throw new Error("Component must implment " + this.getDefaultClass());
+  }
 
-    getRootTag() {
-        throw new Error('Component must implment ' + this.getRootTag());
-    }
-    /**
-     *
-     */
-    getId() {
-        if(!this.id) this.id = this.constructor.name + '-' + (++ID_COUNTER);
-        return this.id;
-    }
-    /**
-     *
-     */
-    getIndex() {
-        return this.index;
-    }
+  getRootTag() {
+    throw new Error("Component must implment " + this.getRootTag());
+  }
+  /**
+   *
+   */
+  getId() {
+    if (!this.id) this.id = this.constructor.name + "-" + ++ID_COUNTER;
+    return this.id;
+  }
+  /**
+   *
+   */
+  getIndex() {
+    return this.index;
+  }
 
-    /**
-     *
-     */
-    setIndex(index) {
-        this.index = index;
-    }
+  /**
+   *
+   */
+  setIndex(index) {
+    this.index = index;
+  }
 
-    getNode() {
-        throw new Error('Component must implment ' + this.getNode());
-    }
+  getNode() {
+    throw new Error("Component must implment " + this.getNode());
+  }
 
-    getHTML() {
-        throw new Error('Component must implment ' + this.getHTML());
-    }
-    /**
-     *
-     * @param {*} config
-     */
-    setConfig(config) {
-        this.config = config;
-    }
-    /**
-     *
-     */
-    getConfig() {
-        return this.config;
-    }
-    /**
-     *
-     */
-    onChange() {
-        throw new Error('Component must implment ' + this.onChange());
-    }
+  getHTML() {
+    throw new Error("Component must implment " + this.getHTML());
+  }
+  /**
+   *
+   * @param {*} config
+   */
+  setConfig(config) {
+    this.config = config;
+  }
+  /**
+   *
+   */
+  getConfig() {
+    return this.config;
+  }
+  /**
+   *
+   */
+  onChange() {
+    throw new Error("Component must implment " + this.onChange());
+  }
 }
-

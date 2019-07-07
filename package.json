@@ -7,7 +7,7 @@
     "commit": "git-cz",
     "build": "NODE_ENV=default webpack",
     "start": "webpack-dev-server --open",
-    "test": "jest --verbose --coverage --env=jsdom",
+    "test": "jest --watch --verbose --coverage --env=jsdom",
     "eslint": "eslint ."
   },
   "author": "Sudhanshu Saxena",
